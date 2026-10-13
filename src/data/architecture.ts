@@ -1,0 +1,155 @@
+export interface Component {
+  id: string;
+  name: string;
+  description: string;
+  category: 'input' | 'speech' | 'brain' | 'service' | 'eventbus';
+  tech: string[];
+  phase: number;
+  status: 'planned' | 'in_progress' | 'done';
+}
+
+export const components: Component[] = [
+  {
+    id: 'eventbus',
+    name: 'Event Bus (Нервная система)',
+    description: 'Центральная шина событий. Все компоненты общаются только через неё.',
+    category: 'eventbus',
+    tech: ['asyncio', 'TypedEvents', 'DLQ'],
+    phase: 2,
+    status: 'planned',
+  },
+  {
+    id: 'microphone',
+    name: 'Микрофон (Уши)',
+    description: 'Захват звука 16 kHz в кольцевой буфер.',
+    category: 'input',
+    tech: ['PyAudio', 'Ring Buffer', '16 kHz'],
+    phase: 3,
+    status: 'planned',
+  },
+  {
+    id: 'speaker',
+    name: 'Динамик (Рот)',
+    description: 'Воспроизведение звука 24 kHz.',
+    category: 'input',
+    tech: ['Playback', '24 kHz'],
+    phase: 4,
+    status: 'planned',
+  },
+  {
+    id: 'aec',
+    name: 'AEC (Подавление эхо)',
+    description: 'WebRTC AEC — робот не слышит сам себя.',
+    category: 'input',
+    tech: ['WebRTC AEC'],
+    phase: 4.5,
+    status: 'planned',
+  },
+  {
+    id: 'wakeword',
+    name: 'Wake Word (Сторож)',
+    description: 'Спит и ждёт кодовое слово "Джарвис".',
+    category: 'speech',
+    tech: ['wake-wordlab', 'OpenWakeWord'],
+    phase: 5,
+    status: 'planned',
+  },
+  {
+    id: 'vad',
+    name: 'VAD (Детектор речи)',
+    description: 'Понимает, когда человек начал/закончил говорить.',
+    category: 'speech',
+    tech: ['Silero v5'],
+    phase: 3,
+    status: 'planned',
+  },
+  {
+    id: 'stt',
+    name: 'STT (Распознавание речи)',
+    description: 'Переводит звук в текст.',
+    category: 'speech',
+    tech: ['faster-whisper', 'large-v3'],
+    phase: 3,
+    status: 'planned',
+  },
+  {
+    id: 'tts',
+    name: 'TTS (Синтез речи)',
+    description: 'Превращает текст робота в звук. Streaming — говорит по словам.',
+    category: 'speech',
+    tech: ['Streaming TTS', '24 kHz'],
+    phase: 4,
+    status: 'planned',
+  },
+  {
+    id: 'fsm',
+    name: 'FSM (Конечный автомат)',
+    description: 'IDLE → WAKE → LISTEN → THINK → SPEAK → BARGE-IN',
+    category: 'brain',
+    tech: ['asyncio', 'State Machine'],
+    phase: 2,
+    status: 'planned',
+  },
+  {
+    id: 'orchestrator',
+    name: 'Orchestrator',
+    description: 'Управляет потоком данных между компонентами.',
+    category: 'brain',
+    tech: ['asyncio', 'Pipeline'],
+    phase: 2,
+    status: 'planned',
+  },
+  {
+    id: 'llm',
+    name: 'LLM (Мозг)',
+    description: 'Qwen2.5-3B — думает и генерирует ответы.',
+    category: 'brain',
+    tech: ['llama-cpp-python', 'Q4_K_M', 'GBNF Grammar'],
+    phase: 1,
+    status: 'planned',
+  },
+  {
+    id: 'rag',
+    name: 'RAG (Память)',
+    description: 'Поиск в документах: BM25 + векторный поиск.',
+    category: 'brain',
+    tech: ['Embeddings c5', 'BM25', 'FAISS', 'LRU Cache'],
+    phase: 6,
+    status: 'planned',
+  },
+  {
+    id: 'history',
+    name: 'History (Память диалога)',
+    description: 'SQLite — хранит историю переписки.',
+    category: 'service',
+    tech: ['SQLite', 'aiosqlite'],
+    phase: 2,
+    status: 'planned',
+  },
+  {
+    id: 'watchdog',
+    name: 'Health Watchdog',
+    description: 'Следит, чтобы робот не завис.',
+    category: 'service',
+    tech: ['asyncio', 'Heartbeat'],
+    phase: 2,
+    status: 'planned',
+  },
+  {
+    id: 'circuit',
+    name: 'Circuit Breaker',
+    description: 'Предохранитель — отключает сломанные сервисы.',
+    category: 'service',
+    tech: ['pybreaker', 'Retry'],
+    phase: 2,
+    status: 'planned',
+  },
+];
+
+export const categoryColors: Record<string, { bg: string; border: string; text: string; label: string }> = {
+  eventbus: { bg: 'bg-yellow-900/30', border: 'border-yellow-500', text: 'text-yellow-400', label: 'Event Bus' },
+  input: { bg: 'bg-blue-900/30', border: 'border-blue-500', text: 'text-blue-400', label: 'Ввод/Вывод' },
+  speech: { bg: 'bg-green-900/30', border: 'border-green-500', text: 'text-green-400', label: 'Речь' },
+  brain: { bg: 'bg-purple-900/30', border: 'border-purple-500', text: 'text-purple-400', label: 'Мозг' },
+  service: { bg: 'bg-orange-900/30', border: 'border-orange-500', text: 'text-orange-400', label: 'Сервисы' },
+};
