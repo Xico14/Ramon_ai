@@ -3,7 +3,7 @@ import { components } from '../data/architecture';
 import { complianceChecks } from '../data/compliance';
 
 interface Props {
-  onNavigate: (tab: 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'compliance') => void;
+  onNavigate: (tab: 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'build' | 'compliance') => void;
 }
 
 export default function OverviewView({ onNavigate }: Props) {
@@ -71,6 +71,12 @@ export default function OverviewView({ onNavigate }: Props) {
               className="px-5 py-2.5 bg-red-600 hover:bg-red-500 rounded-lg font-medium transition-colors text-sm"
             >
               🔐 Безопасность
+            </button>
+            <button
+              onClick={() => onNavigate('build')}
+              className="px-5 py-2.5 bg-teal-600 hover:bg-teal-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              🏗️ Сборка
             </button>
             <button
               onClick={() => onNavigate('installation')}

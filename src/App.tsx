@@ -8,8 +8,9 @@ import MetricsView from './components/MetricsView';
 import DependencyView from './components/DependencyView';
 import SecurityView from './components/SecurityView';
 import InstallationView from './components/InstallationView';
+import BuildProgressView from './components/BuildProgressView';
 
-type Tab = 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'compliance';
+type Tab = 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'build' | 'compliance';
 
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
@@ -19,6 +20,7 @@ function App() {
     { id: 'architecture', label: 'Архитектура', icon: '🧠' },
     { id: 'dataflow', label: 'Поток данных', icon: '🔄' },
     { id: 'roadmap', label: 'Дорожная карта', icon: '🗺️' },
+    { id: 'build', label: 'Сборка', icon: '🏗️' },
     { id: 'dependencies', label: 'Зависимости', icon: '🕸️' },
     { id: 'security', label: 'Безопасность', icon: '🔐' },
     { id: 'metrics', label: 'Метрики', icon: '📊' },
@@ -81,6 +83,7 @@ function App() {
         {activeTab === 'architecture' && <ArchitectureView />}
         {activeTab === 'dataflow' && <DataFlowView />}
         {activeTab === 'roadmap' && <RoadmapView />}
+        {activeTab === 'build' && <BuildProgressView />}
         {activeTab === 'dependencies' && <DependencyView />}
         {activeTab === 'security' && <SecurityView />}
         {activeTab === 'metrics' && <MetricsView />}

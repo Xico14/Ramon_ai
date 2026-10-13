@@ -1,0 +1,58 @@
+# Джарвис — AI Ассистент
+# Зависимости проекта
+
+# Core
+asyncio-mqtt==0.16.0  # опционально
+pydantic==2.5.0
+pyyaml==6.0.1
+
+# Phase 1: LLM
+llama-cpp-python==0.2.56
+
+# Phase 2: UI
+PyQt6==6.6.1
+qasync==0.27.1
+
+# Phase 2: Database
+aiosqlite==0.19.0
+
+# Phase 3: Audio
+pyaudio==0.2.14
+numpy==1.26.3
+webrtcvad==2.0.10
+
+# Phase 3: STT
+faster-whisper==1.0.1
+
+# Phase 3: VAD
+silero-vad==5.1
+
+# Phase 4: TTS
+# streaming-tts будет реализовано отдельно
+
+# Phase 4.5: AEC
+# pywebrtc==0.1.0  # WebRTC AEC
+
+# Phase 5: Wake Word
+openwakeword==0.6.0
+
+# Phase 6: RAG
+faiss-cpu==1.7.4
+sentence-transformers==2.3.1
+rank-bm25==0.2.2
+
+# Phase 7: Security
+cryptography==41.0.7
+
+# Phase 7: MCP
+mcp==1.0.0
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+
+# Monitoring
+psutil==5.9.7
+
+# Phase 8: Build
+# nuitka  # устанавливается отдельно
