@@ -133,6 +133,50 @@ export default function ArchitectureView() {
         })}
       </div>
 
+      {/* Degradation Modes */}
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 className="text-lg font-bold mb-4">🔋 Режимы деградации (Degradation)</h3>
+        <p className="text-xs text-gray-500 mb-4">Что делает робот, когда ресурсов не хватает</p>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="bg-green-900/20 border border-green-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🟢</span>
+              <h4 className="font-bold text-sm text-green-400">Нормальный режим</h4>
+            </div>
+            <div className="text-xs text-gray-400 space-y-1">
+              <div>• RAM &gt; 12 GB свободно</div>
+              <div>• GPU доступен</div>
+              <div>• Все модели загружены</div>
+              <div>• Полное качество</div>
+            </div>
+          </div>
+          <div className="bg-yellow-900/20 border border-yellow-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🟡</span>
+              <h4 className="font-bold text-sm text-yellow-400">Экономный режим</h4>
+            </div>
+            <div className="text-xs text-gray-400 space-y-1">
+              <div>• RAM 8-12 GB</div>
+              <div>• Отключить RAG кэш</div>
+              <div>• Меньше контекст LLM</div>
+              <div>• Убрать анимации UI</div>
+            </div>
+          </div>
+          <div className="bg-red-900/20 border border-red-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🔴</span>
+              <h4 className="font-bold text-sm text-red-400">Выживание</h4>
+            </div>
+            <div className="text-xs text-gray-400 space-y-1">
+              <div>• RAM &lt; 8 GB</div>
+              <div>• Только STT + TTS</div>
+              <div>• Без RAG и инструментов</div>
+              <div>• Минимальный UI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Detail Modal */}
       {selectedComponent && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedComponent(null)}>

@@ -3,7 +3,7 @@ import { components } from '../data/architecture';
 import { complianceChecks } from '../data/compliance';
 
 interface Props {
-  onNavigate: (tab: 'overview' | 'architecture' | 'roadmap' | 'compliance') => void;
+  onNavigate: (tab: 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'compliance') => void;
 }
 
 export default function OverviewView({ onNavigate }: Props) {
@@ -46,13 +46,43 @@ export default function OverviewView({ onNavigate }: Props) {
               onClick={() => onNavigate('architecture')}
               className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors text-sm"
             >
-              🧠 Смотреть архитектуру
+              🧠 Архитектура
+            </button>
+            <button
+              onClick={() => onNavigate('dataflow')}
+              className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              🔄 Поток данных
             </button>
             <button
               onClick={() => onNavigate('roadmap')}
               className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg font-medium transition-colors text-sm"
             >
               🗺️ Дорожная карта
+            </button>
+            <button
+              onClick={() => onNavigate('dependencies')}
+              className="px-5 py-2.5 bg-orange-600 hover:bg-orange-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              🕸️ Зависимости
+            </button>
+            <button
+              onClick={() => onNavigate('security')}
+              className="px-5 py-2.5 bg-red-600 hover:bg-red-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              🔐 Безопасность
+            </button>
+            <button
+              onClick={() => onNavigate('installation')}
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              📦 Установка
+            </button>
+            <button
+              onClick={() => onNavigate('metrics')}
+              className="px-5 py-2.5 bg-yellow-600 hover:bg-yellow-500 rounded-lg font-medium transition-colors text-sm"
+            >
+              📊 Метрики
             </button>
             <button
               onClick={() => onNavigate('compliance')}
@@ -75,6 +105,103 @@ export default function OverviewView({ onNavigate }: Props) {
             <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
           </div>
         ))}
+      </div>
+
+      {/* Robot Anatomy */}
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 className="text-lg font-bold mb-4">🤖 Анатомия робота</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Left: Senses */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider">Органы чувств</h4>
+            <div className="bg-blue-900/20 border border-blue-800/50 rounded-lg p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <span>👂</span>
+                <div>
+                  <div className="text-xs font-medium">Уши (микрофон)</div>
+                  <div className="text-[10px] text-gray-500">16 kHz, PyAudio</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>👁️</span>
+                <div>
+                  <div className="text-xs font-medium">VAD (Silero v5)</div>
+                  <div className="text-[10px] text-gray-500">Детектор речи</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>👃</span>
+                <div>
+                  <div className="text-xs font-medium">Wake Word</div>
+                  <div className="text-[10px] text-gray-500">Кодовое слово</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Center: Brain */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold text-purple-400 uppercase tracking-wider">Мозг и Нервы</h4>
+            <div className="bg-purple-900/20 border border-purple-800/50 rounded-lg p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <span>🧠</span>
+                <div>
+                  <div className="text-xs font-medium">LLM (Qwen2.5-3B)</div>
+                  <div className="text-[10px] text-gray-500">Думает и отвечает</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>⚡</span>
+                <div>
+                  <div className="text-xs font-medium">Event Bus</div>
+                  <div className="text-[10px] text-gray-500">Нервная система</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>🔄</span>
+                <div>
+                  <div className="text-xs font-medium">FSM</div>
+                  <div className="text-[10px] text-gray-500">Сознание/состояния</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>📚</span>
+                <div>
+                  <div className="text-xs font-medium">RAG</div>
+                  <div className="text-[10px] text-gray-500">Долгая память</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Actuators */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider">Исполнительные</h4>
+            <div className="bg-green-900/20 border border-green-800/50 rounded-lg p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <span>🗣️</span>
+                <div>
+                  <div className="text-xs font-medium">Рот (TTS)</div>
+                  <div className="text-[10px] text-gray-500">Streaming, 24 kHz</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>🤲</span>
+                <div>
+                  <div className="text-xs font-medium">Руки (MCP)</div>
+                  <div className="text-[10px] text-gray-500">Инструменты</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>🛡️</span>
+                <div>
+                  <div className="text-xs font-medium">Иммунитет</div>
+                  <div className="text-[10px] text-gray-500">Circuit Breaker</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Pipeline */}
@@ -110,6 +237,46 @@ export default function OverviewView({ onNavigate }: Props) {
             <p className="text-xs text-gray-400">{p.desc}</p>
           </div>
         ))}
+      </div>
+
+      {/* Phase 0 Risks */}
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 className="text-lg font-bold mb-4">⚠️ Риски Фазы 0 (Proof of Concept)</h3>
+        <p className="text-xs text-gray-500 mb-4">Самые рискованные части — проверяем первыми, чтобы не строить на песке</p>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="bg-red-900/20 border border-red-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-bold px-2 py-0.5 rounded bg-red-900/50 text-red-400 border border-red-800">P0</span>
+              <span className="text-sm font-bold">Tool-calling</span>
+            </div>
+            <p className="text-xs text-gray-400">Может ли LLM корректно вызывать функции? Риск: модель не понимает JSON-формат</p>
+            <div className="mt-2 text-[10px] text-red-400">Митигация: GBNF grammar + few-shot примеры</div>
+          </div>
+          <div className="bg-red-900/20 border border-red-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-bold px-2 py-0.5 rounded bg-red-900/50 text-red-400 border border-red-800">P0</span>
+              <span className="text-sm font-bold">Wake Word RU</span>
+            </div>
+            <p className="text-xs text-gray-400">Есть ли библиотека для русского кодового слова? Риск: нет готового решения</p>
+            <div className="mt-2 text-[10px] text-red-400">Митигация: OpenWakeWord + кастомная тренировка</div>
+          </div>
+          <div className="bg-yellow-900/20 border border-yellow-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-bold px-2 py-0.5 rounded bg-yellow-900/50 text-yellow-400 border border-yellow-800">P1</span>
+              <span className="text-sm font-bold">TTS/STT скорость</span>
+            </div>
+            <p className="text-xs text-gray-400">Достаточно ли быстро для диалога? Риск: задержка &gt; 3 сек</p>
+            <div className="mt-2 text-[10px] text-yellow-400">Митигация: streaming TTS + GPU ускорение</div>
+          </div>
+          <div className="bg-blue-900/20 border border-blue-800/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-900/50 text-blue-400 border border-blue-800">P2</span>
+              <span className="text-sm font-bold">RAM потребление</span>
+            </div>
+            <p className="text-xs text-gray-400">Влезет ли всё в 8 GB? Риск: OOM на слабых ПК</p>
+            <div className="mt-2 text-[10px] text-blue-400">Митигация: квантизация Q4 + lazy loading</div>
+          </div>
+        </div>
       </div>
 
       {/* Tech Stack */}
