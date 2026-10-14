@@ -105,10 +105,10 @@ export const complianceChecks: ComplianceCheck[] = [
   { id: 'c26', category: 'Фаза 6', requirement: 'Гибридный поиск', phase: '6', status: 'done', notes: '✅ BM25 + Vector + LRU Cache' },
   
   // Фаза 7
-  { id: 'c27', category: 'Фаза 7', requirement: 'MCP работает', phase: '7', status: 'not_started', notes: 'Инструменты вызываются' },
-  { id: 'c28', category: 'Фаза 7', requirement: 'Scopes/Audit', phase: '7', status: 'not_started', notes: 'Запрос разрешения' },
-  { id: 'c29', category: 'Фаза 7', requirement: 'AES-GCM шифрование', phase: '7', status: 'not_started', notes: 'Настройки зашифрованы' },
-  { id: 'c30', category: 'Фаза 7', requirement: 'Update/Backup', phase: '7', status: 'not_started', notes: 'SHA256 + откат' },
+  { id: 'c27', category: 'Фаза 7', requirement: 'MCP работает', phase: '7', status: 'done', notes: '✅ 8 инструментов зарегистрированы и работают' },
+  { id: 'c28', category: 'Фаза 7', requirement: 'Scopes/Audit', phase: '7', status: 'done', notes: '✅ 8 областей действия, аудит-лог работает' },
+  { id: 'c29', category: 'Фаза 7', requirement: 'AES-GCM шифрование', phase: '7', status: 'done', notes: '✅ Fernet (AES-128-CBC + HMAC-SHA256)' },
+  { id: 'c30', category: 'Фаза 7', requirement: 'Update/Backup', phase: '7', status: 'done', notes: '✅ Бэкапы, SHA256, откат работают' },
   
   // Фаза 7.5-7.8
   { id: 'c31', category: 'Фаза 7.5', requirement: 'Beta тест пройден', phase: '7.5', status: 'not_started', notes: '3-5 тестеров' },

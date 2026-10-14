@@ -115,13 +115,16 @@ export const buildProgress: BuildPhase[] = [
   },
   {
     phase: 7,
-    title: 'Фаза 7: Безопасность',
-    status: 'planned',
+    title: 'Фаза 7: Безопасность — ЗАВЕРШЕНА',
+    status: 'done',
     files: [
-      { path: 'jarvis/security/__init__.py', description: 'Security package', phase: 7, status: 'planned' },
-      { path: 'jarvis/security/mcp.py', description: 'MCP Server', phase: 7, status: 'planned' },
-      { path: 'jarvis/security/scopes.py', description: 'Scopes/Audit', phase: 7, status: 'planned' },
-      { path: 'jarvis/security/encryption.py', description: 'AES-GCM', phase: 7, status: 'planned' },
+      { path: 'jarvis/security/__init__.py', description: 'Security package', phase: 7, status: 'done', lines: 10 },
+      { path: 'jarvis/security/mcp.py', description: 'MCP Server (8 инструментов)', phase: 7, status: 'done', lines: 280 },
+      { path: 'jarvis/security/scopes.py', description: 'Scopes + Audit Log', phase: 7, status: 'done', lines: 250 },
+      { path: 'jarvis/security/encryption.py', description: 'AES-GCM шифрование', phase: 7, status: 'done', lines: 200 },
+      { path: 'jarvis/security/backup.py', description: 'Backup + Update Manager', phase: 7, status: 'done', lines: 250 },
+      { path: 'jarvis/scripts/test_phase7.py', description: 'Тесты Фазы 7', phase: 7, status: 'done', lines: 300 },
+      { path: 'jarvis/docs/PHASE_7.md', description: 'Документация Фазы 7', phase: 7, status: 'done', lines: 200 },
     ],
   },
   {
