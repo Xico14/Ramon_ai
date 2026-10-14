@@ -19,10 +19,13 @@ export const buildProgress: BuildPhase[] = [
     title: 'Фаза 0: Proof of Concept',
     status: 'done',
     files: [
-      { path: 'jarvis/requirements.txt', description: 'Зависимости проекта', phase: 0, status: 'done', lines: 55 },
+      { path: 'jarvis/requirements.txt', description: 'Зависимости проекта (обновлено)', phase: 0, status: 'done', lines: 35 },
+      { path: 'jarvis/requirements-minimal.txt', description: 'Минимальные зависимости', phase: 0, status: 'done', lines: 10 },
       { path: 'jarvis/config.yaml', description: 'Конфигурация системы', phase: 0, status: 'done', lines: 85 },
       { path: 'jarvis/README.md', description: 'Документация проекта', phase: 0, status: 'done', lines: 150 },
+      { path: 'jarvis/INSTALL.md', description: 'Инструкция по установке', phase: 0, status: 'done', lines: 200 },
       { path: 'jarvis/scripts/test_phase0.py', description: 'Тесты Фазы 0', phase: 0, status: 'done', lines: 180 },
+      { path: 'jarvis/scripts/install.py', description: 'Скрипт установки', phase: 0, status: 'done', lines: 150 },
     ],
   },
   {
