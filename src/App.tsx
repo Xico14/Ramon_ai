@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import JarvisInterface from './components/JarvisInterface';
 import ArchitectureView from './components/ArchitectureView';
 import RoadmapView from './components/RoadmapView';
 import ComplianceView from './components/ComplianceView';
@@ -9,24 +10,43 @@ import DependencyView from './components/DependencyView';
 import SecurityView from './components/SecurityView';
 import InstallationView from './components/InstallationView';
 import BuildProgressView from './components/BuildProgressView';
+import { LayoutDashboard, Monitor } from 'lucide-react';
 
-type Tab = 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'build' | 'compliance';
+type Tab = 'jarvis' | 'overview' | 'architecture' | 'roadmap' | 'dataflow' | 'dependencies' | 'metrics' | 'security' | 'installation' | 'build' | 'compliance';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [activeTab, setActiveTab] = useState<Tab>('jarvis');
+  const [showDashboard, setShowDashboard] = useState(false);
 
-  const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: 'overview', label: 'Обзор', icon: '🏠' },
-    { id: 'architecture', label: 'Архитектура', icon: '🧠' },
-    { id: 'dataflow', label: 'Поток данных', icon: '🔄' },
-    { id: 'roadmap', label: 'Дорожная карта', icon: '🗺️' },
-    { id: 'build', label: 'Сборка', icon: '🏗️' },
-    { id: 'dependencies', label: 'Зависимости', icon: '🕸️' },
-    { id: 'security', label: 'Безопасность', icon: '🔐' },
-    { id: 'metrics', label: 'Метрики', icon: '📊' },
-    { id: 'installation', label: 'Установка', icon: '📦' },
-    { id: 'compliance', label: 'Соответствие', icon: '✅' },
+  const tabs = [
+    { id: 'jarvis' as Tab, label: 'Джарвис', icon: '🤖' },
+    { id: 'overview' as Tab, label: 'Обзор', icon: '🏠' },
+    { id: 'architecture' as Tab, label: 'Архитектура', icon: '🧠' },
+    { id: 'dataflow' as Tab, label: 'Поток данных', icon: '🔄' },
+    { id: 'roadmap' as Tab, label: 'Дорожная карта', icon: '🗺️' },
+    { id: 'build' as Tab, label: 'Сборка', icon: '🏗️' },
+    { id: 'dependencies' as Tab, label: 'Зависимости', icon: '🕸️' },
+    { id: 'security' as Tab, label: 'Безопасность', icon: '🔐' },
+    { id: 'metrics' as Tab, label: 'Метрики', icon: '📊' },
+    { id: 'installation' as Tab, label: 'Установка', icon: '📦' },
+    { id: 'compliance' as Tab, label: 'Соответствие', icon: '✅' },
   ];
+
+  // Если выбран Джарвис, показываем полный интерфейс
+  if (activeTab === 'jarvis') {
+    return (
+      <div className="relative">
+        <JarvisInterface />
+        <button
+          onClick={() => setActiveTab('overview')}
+          className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:bg-white/20 transition-all flex items-center gap-2 text-sm"
+        >
+          <LayoutDashboard className="w-4 h-4" />
+          Панель управления
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
@@ -45,8 +65,15 @@ function App() {
                 <p className="text-xs text-gray-500">Архитектура • План • Метрики • Контроль</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-xs text-gray-500">
-              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-900/30 text-green-400 border border-green-800">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setActiveTab('jarvis')}
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-lg font-medium transition-all text-sm flex items-center gap-2 shadow-lg shadow-blue-500/20"
+              >
+                <Monitor className="w-4 h-4" />
+                Интерфейс
+              </button>
+              <span className="hidden md:inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-900/30 text-green-400 border border-green-800">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 Планирование
               </span>
@@ -59,7 +86,7 @@ function App() {
       <nav className="border-b border-gray-800 bg-gray-900/50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-1 overflow-x-auto scrollbar-hide">
-            {tabs.map((tab) => (
+            {tabs.filter(t => t.id !== 'jarvis').map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
