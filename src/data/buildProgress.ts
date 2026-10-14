@@ -27,6 +27,7 @@ export const buildProgress: BuildPhase[] = [
       { path: 'jarvis/scripts/test_phase0.py', description: 'Тесты Фазы 0', phase: 0, status: 'done', lines: 180 },
       { path: 'jarvis/scripts/install.py', description: 'Скрипт установки', phase: 0, status: 'done', lines: 150 },
       { path: 'jarvis/scripts/check_project.py', description: 'Проверка структуры', phase: 0, status: 'done', lines: 150 },
+      { path: 'jarvis/scripts/test_event_bus.py', description: 'Тест EventBus', phase: 0, status: 'done', lines: 100 },
     ],
   },
   {

@@ -14,7 +14,6 @@ Path('./models').mkdir(parents=True, exist_ok=True)
 Path('./documents').mkdir(parents=True, exist_ok=True)
 
 import yaml
-from qasync import QEventLoop
 from PyQt6.QtWidgets import QApplication
 
 from core.event_bus import EventBus
@@ -23,7 +22,7 @@ from core.orchestrator import Orchestrator
 from core.config import load_config
 from ui.main_window import MainWindow
 
-# Настройка логирования (теперь директория logs/ уже существует)
+# Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -35,13 +34,33 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-async def main():
-    """Главная асинхронная функция"""
+async def startup(event_bus, orchestrator):
+    """Асинхронный запуск компонентов"""
+    try:
+        await event_bus.start()
+        await orchestrator.start()
+        logger.info("🚀 Джарвис запущен!")
+    except Exception as e:
+        logger.error(f"❌ Ошибка запуска: {e}", exc_info=True)
+
+
+async def shutdown(event_bus, orchestrator):
+    """Асинхронная остановка"""
+    try:
+        await orchestrator.stop()
+        await event_bus.stop()
+        logger.info("✅ Джарвис остановлен")
+    except Exception as e:
+        logger.error(f"❌ Ошибка остановки: {e}", exc_info=True)
+
+
+def main():
+    """Точка входа"""
     logger.info("🤖 Запуск Джарвиса...")
     
     # Загрузка конфигурации
     config = load_config('./config.yaml')
-    logger.info(f"✅ Конфигурация загружена")
+    logger.info("✅ Конфигурация загружена")
     
     # Создание Event Bus
     event_bus = EventBus(config['event_bus'])
@@ -55,33 +74,60 @@ async def main():
     orchestrator = Orchestrator(config, event_bus, fsm)
     logger.info("✅ Orchestrator создан")
     
-    # Создание UI
+    # Создание QApplication
     app = QApplication(sys.argv)
-    loop = QEventLoop(app)
-    asyncio.set_event_loop(loop)
     
+    # Создание UI
     window = MainWindow(event_bus, fsm)
     window.show()
     logger.info("✅ UI создан")
     
-    # Запуск всех компонентов
-    try:
-        await orchestrator.start()
-        logger.info("🚀 Джарвис запущен!")
+    # Импортируем qasync здесь, после создания QApplication
+    from qasync import QEventLoop
+    
+    # Создание qasync event loop
+    loop = QEventLoop(app)
+    asyncio.set_event_loop(loop)
+    
+    logger.info("🔄 Event loop создан (qasync)")
+    
+    # Обработчик закрытия
+    def on_quit():
+        logger.info("🛑 Закрытие приложения...")
+        # Запускаем shutdown асинхронно
+        asyncio.ensure_future(shutdown(event_bus, orchestrator))
+    
+    app.aboutToQuit.connect(on_quit)
+    
+    # Запускаем startup как фоновую задачу
+    async def run_app():
+        """Запуск приложения"""
+        # Запуск компонентов
+        await startup(event_bus, orchestrator)
+    
+    # Запускаем в loop
+    with loop:
+        # Создаём задачу для run_app
+        task = loop.create_task(run_app())
         
-        # Запуск event loop
-        with loop:
+        # Запускаем Qt event loop (он будет обрабатывать и async задачи)
+        try:
             loop.run_forever()
-    except KeyboardInterrupt:
-        logger.info("🛑 Остановка по Ctrl+C")
-    finally:
-        await orchestrator.stop()
-        logger.info("✅ Джарвис остановлен")
+        except KeyboardInterrupt:
+            logger.info("🛑 Остановка по Ctrl+C")
+        finally:
+            # Отмена задачи
+            if not task.done():
+                task.cancel()
+                try:
+                    loop.run_until_complete(task)
+                except asyncio.CancelledError:
+                    pass
 
 
 if __name__ == '__main__':
     try:
-        asyncio.run(main())
+        main()
     except Exception as e:
         logger.error(f"❌ Критическая ошибка: {e}", exc_info=True)
         sys.exit(1)

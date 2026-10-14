@@ -98,8 +98,8 @@ class EventBus:
         # Подписчики: event_type -> [handlers]
         self._subscribers: dict[EventType, list[EventHandler]] = defaultdict(list)
         
-        # Очередь событий
-        self._queue: asyncio.Queue[Event] = asyncio.Queue(maxsize=self.max_queue_size)
+        # Очередь событий (создаётся лениво при start())
+        self._queue: asyncio.Queue | None = None
         
         # Dead Letter Queue (для недоставленных событий)
         self._dlq: list[Event] = []
@@ -130,6 +130,10 @@ class EventBus:
         """Опубликовать событие"""
         self._events_published += 1
         
+        # Ленивая инициализация queue
+        if self._queue is None:
+            self._queue = asyncio.Queue(maxsize=self.max_queue_size)
+        
         try:
             self._queue.put_nowait(event)
             logger.debug(f"📤 Событие опубликовано: {event.type.value} (от {event.source})")
@@ -139,6 +143,10 @@ class EventBus:
     
     async def _process_events(self) -> None:
         """Обработка событий из очереди"""
+        # Ленивая инициализация queue
+        if self._queue is None:
+            self._queue = asyncio.Queue(maxsize=self.max_queue_size)
+        
         while self._running:
             try:
                 event = await asyncio.wait_for(self._queue.get(), timeout=1.0)
@@ -188,6 +196,13 @@ class EventBus:
                 await self._task
             except asyncio.CancelledError:
                 pass
+        # Очищаем queue
+        if self._queue:
+            while not self._queue.empty():
+                try:
+                    self._queue.get_nowait()
+                except:
+                    break
         logger.info("📡 Event Bus остановлен")
     
     @property
@@ -198,6 +213,6 @@ class EventBus:
             'delivered': self._events_delivered,
             'failed': self._events_failed,
             'dlq_size': len(self._dlq),
-            'queue_size': self._queue.qsize(),
+            'queue_size': self._queue.qsize() if self._queue else 0,
             'subscribers': sum(len(h) for h in self._subscribers.values()),
         }
