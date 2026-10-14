@@ -29,9 +29,17 @@ export const buildProgress: BuildPhase[] = [
     ],
   },
   {
-    phase: 1,
-    title: 'Фаза 1: Фундамент (Мозг)',
+    phase: 0,
+    title: 'Фаза 0: Тесты пройдены (3/4)',
     status: 'done',
+    files: [
+      { path: 'jarvis/scripts/optimize_stt.py', description: 'Скрипт оптимизации STT', phase: 0, status: 'done', lines: 150 },
+    ],
+  },
+  {
+    phase: 1,
+    title: 'Фаза 1: Фундамент (Мозг) — В ПРОЦЕССЕ',
+    status: 'in_progress',
     files: [
       { path: 'jarvis/brain/__init__.py', description: 'Brain package', phase: 1, status: 'done', lines: 5 },
       { path: 'jarvis/brain/llm.py', description: 'LLM обёртка (llama-cpp)', phase: 1, status: 'done', lines: 175 },
