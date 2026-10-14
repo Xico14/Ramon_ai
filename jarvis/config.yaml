@@ -1,0 +1,106 @@
+# Джарвис — AI Ассистент
+# Конфигурация
+
+# LLM (Фаза 1)
+llm:
+  model_path: "./models/qwen2.5-3b-q4_k_m.gguf"
+  n_ctx: 4096
+  n_threads: 4
+  n_gpu_layers: 0  # -1 для GPU
+  temperature: 0.7
+  max_tokens: 512
+  grammar_path: "./grammars/response.gbnf"
+
+# Audio (Фаза 3-4)
+audio:
+  sample_rate_input: 16000
+  sample_rate_output: 24000
+  channels: 1
+  chunk_size: 512
+  ring_buffer_seconds: 2.0
+
+# AEC (Фаза 4.5)
+aec:
+  enabled: true
+  filter_length: 2048
+  mu: 0.01  # Шаг адаптации NLMS
+
+# VAD (Фаза 3)
+vad:
+  model_path: "./models/silero_vad_v5.onnx"
+  threshold: 0.5
+  min_speech_ms: 250
+  min_silence_ms: 500
+  padding_ms: 100
+
+# STT (Фаза 3)
+stt:
+  model_size: "tiny"  # "tiny" для скорости, "base" или "small" для качества, "large-v3" для точности
+  language: "ru"
+  device: "cpu"  # "cuda" для GPU (намного быстрее)
+  compute_type: "int8"
+  beam_size: 1  # 1 для скорости, 5 для качества
+
+# TTS (Фаза 4)
+tts:
+  model_path: "./models/tts_model.pt"
+  speaker: "default"
+  speed: 1.0
+  sample_rate: 24000
+
+# Wake Word (Фаза 5)
+wakeword:
+  model_path: "./models/jarvis_wakeword.onnx"
+  threshold: 0.5
+  chunk_size: 1280
+
+# RAG (Фаза 6)
+rag:
+  documents_path: "./documents"
+  chunk_size: 500
+  chunk_overlap: 50
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  top_k: 5
+  cache_size: 1000
+  hybrid_search: true  # BM25 + Vector
+  rrf_k: 60  # Reciprocal Rank Fusion параметр
+
+# Database (Фаза 2)
+database:
+  path: "./data/jarvis.db"
+
+# Event Bus (Фаза 2)
+event_bus:
+  max_queue_size: 1000
+  dlq_path: "./data/dlq.json"
+
+# FSM (Фаза 2)
+fsm:
+  initial_state: "IDLE"
+  states:
+    - IDLE
+    - WAKE
+    - LISTEN
+    - THINK
+    - SPEAK
+    - BARGE_IN
+
+# Security (Фаза 7)
+security:
+  encryption_key_path: "./config/encryption.key"
+  scopes:
+    math: "unrestricted"
+    web: "unrestricted"
+    files.local: "~/jarvis/"
+    files.system: "confirmation_required"
+    files.dangerous: "double_confirmation"
+    system.apps: "confirmation_required"
+    system.dangerous: "whitelist_only"
+    network.email: "always_confirmation"
+
+# Monitoring
+monitoring:
+  log_level: "INFO"
+  log_file: "./logs/jarvis.log"
+  metrics_enabled: true
+  health_check_interval: 30

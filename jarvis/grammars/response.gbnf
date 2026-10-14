@@ -1,0 +1,17 @@
+root ::= response
+
+response ::= "{" ws "\"response\"" ws ":" ws string ws "," ws "\"tool_call\"" ws ":" ws tool_call ws "}"
+
+tool_call ::= "{" ws "\"name\"" ws ":" ws string ws "," ws "\"args\"" ws ":" ws object ws "}" | "null"
+
+object ::= "{" ws (string ws ":" ws value ws ("," ws string ws ":" ws value ws)*)? "}"
+
+array ::= "[" ws (value ws ("," ws value ws)*)? "]"
+
+value ::= string | number | object | array | "true" | "false" | "null"
+
+string ::= "\"" (#[^"\\] | "\\" (["\\/bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]))* "\""
+
+number ::= ("-"? ([0-9] | [1-9] [0-9]*)) ("." [0-9]+)? ([eE] [-+]? [0-9]+)?
+
+ws ::= [ \t\n]*
