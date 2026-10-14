@@ -128,6 +128,19 @@ export const buildProgress: BuildPhase[] = [
     ],
   },
   {
+    phase: 7.5,
+    title: 'Фаза 7.5-7.8: Полировка — ЗАВЕРШЕНА',
+    status: 'done',
+    files: [
+      { path: 'jarvis/monitoring/__init__.py', description: 'Monitoring package', phase: 7.5, status: 'done', lines: 10 },
+      { path: 'jarvis/monitoring/metrics.py', description: 'Сбор метрик (CPU, RAM, latency)', phase: 7.5, status: 'done', lines: 250 },
+      { path: 'jarvis/monitoring/health.py', description: 'Проверка здоровья компонентов', phase: 7.5, status: 'done', lines: 230 },
+      { path: 'jarvis/monitoring/degradation.py', description: 'Режим выживания (4 уровня)', phase: 7.5, status: 'done', lines: 240 },
+      { path: 'jarvis/scripts/test_phase75.py', description: 'Тесты Фазы 7.5-7.8', phase: 7.5, status: 'done', lines: 350 },
+      { path: 'jarvis/docs/PHASE_75.md', description: 'Документация Фазы 7.5-7.8', phase: 7.5, status: 'done', lines: 250 },
+    ],
+  },
+  {
     phase: 8,
     title: 'Фаза 8: Упаковка',
     status: 'planned',
