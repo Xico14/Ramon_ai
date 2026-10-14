@@ -62,6 +62,8 @@ rag:
   embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
   top_k: 5
   cache_size: 1000
+  hybrid_search: true  # BM25 + Vector
+  rrf_k: 60  # Reciprocal Rank Fusion параметр
 
 # Database (Фаза 2)
 database:

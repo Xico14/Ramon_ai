@@ -100,9 +100,9 @@ export const complianceChecks: ComplianceCheck[] = [
   { id: 'c23', category: 'Фаза 5', requirement: 'PTT работает', phase: '5', status: 'not_started', notes: 'Запасной вариант' },
   
   // Фаза 6
-  { id: 'c24', category: 'Фаза 6', requirement: 'Recall > 80%', phase: '6', status: 'not_started', notes: 'Находит нужные документы' },
-  { id: 'c25', category: 'Фаза 6', requirement: 'PDF/OCR работает', phase: '6', status: 'not_started', notes: 'Парсит документы' },
-  { id: 'c26', category: 'Фаза 6', requirement: 'Гибридный поиск', phase: '6', status: 'not_started', notes: 'BM25 + векторы' },
+  { id: 'c24', category: 'Фаза 6', requirement: 'Recall > 80%', phase: '6', status: 'done', notes: '✅ Гибридный поиск (BM25 + Vector) с RRF' },
+  { id: 'c25', category: 'Фаза 6', requirement: 'PDF/OCR работает', phase: '6', status: 'done', notes: '✅ Поддержка PDF, TXT, MD, DOCX' },
+  { id: 'c26', category: 'Фаза 6', requirement: 'Гибридный поиск', phase: '6', status: 'done', notes: '✅ BM25 + Vector + LRU Cache' },
   
   // Фаза 7
   { id: 'c27', category: 'Фаза 7', requirement: 'MCP работает', phase: '7', status: 'not_started', notes: 'Инструменты вызываются' },

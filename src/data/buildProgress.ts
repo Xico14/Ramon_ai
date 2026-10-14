@@ -101,14 +101,16 @@ export const buildProgress: BuildPhase[] = [
   },
   {
     phase: 6,
-    title: 'Фаза 6: Память (RAG)',
-    status: 'planned',
+    title: 'Фаза 6: Память (RAG) — ЗАВЕРШЕНА',
+    status: 'done',
     files: [
-      { path: 'jarvis/rag/__init__.py', description: 'RAG package', phase: 6, status: 'planned' },
-      { path: 'jarvis/rag/ingestion.py', description: 'Парсинг документов', phase: 6, status: 'planned' },
-      { path: 'jarvis/rag/chunker.py', description: 'Chunking', phase: 6, status: 'planned' },
-      { path: 'jarvis/rag/embedder.py', description: 'Embeddings', phase: 6, status: 'planned' },
-      { path: 'jarvis/rag/search.py', description: 'BM25 + Vector Search', phase: 6, status: 'planned' },
+      { path: 'jarvis/rag/__init__.py', description: 'RAG package', phase: 6, status: 'done', lines: 10 },
+      { path: 'jarvis/rag/ingestion.py', description: 'Загрузка документов (PDF, TXT, MD, DOCX)', phase: 6, status: 'done', lines: 180 },
+      { path: 'jarvis/rag/chunker.py', description: 'Разбиение на чанки с перекрытием', phase: 6, status: 'done', lines: 140 },
+      { path: 'jarvis/rag/embedder.py', description: 'Векторизация текста (sentence-transformers)', phase: 6, status: 'done', lines: 110 },
+      { path: 'jarvis/rag/search.py', description: 'Гибридный поиск (BM25 + Vector + LRU Cache)', phase: 6, status: 'done', lines: 250 },
+      { path: 'jarvis/scripts/test_phase6.py', description: 'Тесты Фазы 6', phase: 6, status: 'done', lines: 300 },
+      { path: 'jarvis/docs/PHASE_6.md', description: 'Документация Фазы 6', phase: 6, status: 'done', lines: 200 },
     ],
   },
   {
