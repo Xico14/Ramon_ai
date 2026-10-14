@@ -19,6 +19,12 @@ audio:
   chunk_size: 512
   ring_buffer_seconds: 2.0
 
+# AEC (Фаза 4.5)
+aec:
+  enabled: true
+  filter_length: 2048
+  mu: 0.01  # Шаг адаптации NLMS
+
 # VAD (Фаза 3)
 vad:
   model_path: "./models/silero_vad_v5.onnx"

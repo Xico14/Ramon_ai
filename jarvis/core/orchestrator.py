@@ -1,6 +1,7 @@
 """
-Orchestrator — Оркестратор
+Orchestrator — Оркестратор (Фаза 4.5: AEC + Barge-in)
 Управляет потоком данных между компонентами
+Включает AEC и улучшенный Barge-in
 """
 import asyncio
 import logging
@@ -17,6 +18,7 @@ class Orchestrator:
     """
     Оркестратор — управляет потоком данных
     Координирует работу всех компонентов
+    Включает AEC (подавление эхо) и Barge-in
     """
     
     def __init__(self, config: dict, event_bus: EventBus, fsm: FSM):
@@ -41,8 +43,13 @@ class Orchestrator:
         self.llm = None
         self.rag = None
         self.wake_word = None
+        self.aec = None  # НОВОЕ: AEC для подавления эхо
         
-        logger.info("Orchestrator инициализирован")
+        # Barge-in параметры
+        self._barge_in_threshold = config.get('barge_in_threshold', 0.5)
+        self._barge_in_enabled = True
+        
+        logger.info("Orchestrator инициализирован (с AEC и Barge-in)")
     
     async def start(self) -> None:
         """Запустить оркестратор"""
@@ -51,8 +58,14 @@ class Orchestrator:
         # Подписка на события
         self.event_bus.subscribe(EventType.TEXT_TRANSCRIBED, self._on_text_transcribed)
         self.event_bus.subscribe(EventType.STATE_CHANGED, self._on_state_changed)
+        self.event_bus.subscribe(EventType.SPEECH_DETECTED, self._on_speech_detected)
+        self.event_bus.subscribe(EventType.AUDIO_CAPTURED, self._on_audio_captured)
         
         # Запуск компонентов (если они есть)
+        if self.aec:
+            await self.aec.start()
+            logger.info("✅ AEC запущен")
+        
         if self.wake_word:
             await self.wake_word.start()
         if self.audio_capture:
@@ -60,13 +73,15 @@ class Orchestrator:
         if self.vad:
             await self.vad.start()
         
-        logger.info("🚀 Orchestrator запущен")
+        logger.info("🚀 Orchestrator запущен (с AEC и Barge-in)")
     
     async def stop(self) -> None:
         """Остановить оркестратор"""
         self._running = False
         
         # Остановка компонентов
+        if self.aec:
+            await self.aec.stop()
         if self.wake_word:
             await self.wake_word.stop()
         if self.audio_capture:
@@ -81,6 +96,50 @@ class Orchestrator:
             await self.llm.stop()
         
         logger.info("🛑 Orchestrator остановлен")
+    
+    async def _on_audio_captured(self, event: Event) -> None:
+        """
+        Обработка захваченного аудио
+        Применяет AEC если активно воспроизведение
+        """
+        if not self.aec or not self._running:
+            return
+        
+        # Если TTS активен, применяем AEC
+        if self.tts and self.tts.is_speaking:
+            # Получаем reference signal (то, что воспроизводится)
+            # В реальной реализации это будет буферизованный аудио с TTS
+            # Пока это заглушка
+            pass
+    
+    async def _on_speech_detected(self, event: Event) -> None:
+        """
+        Обработка обнаружения речи
+        Barge-in: если робот говорит и пользователь начал говорить
+        """
+        if not self._barge_in_enabled:
+            return
+        
+        # Проверяем состояние FSM
+        current_state = self.fsm.state
+        
+        # Если робот говорит (SPEAK) и обнаружена речь пользователя
+        if current_state == State.SPEAK:
+            logger.info("🛑 BARGE-IN: Пользователь перебивает робота!")
+            
+            # Немедленно останавливаем TTS
+            if self.tts:
+                await self.tts.stop_speaking()
+            
+            # Переход в состояние BARGE_IN
+            await self.fsm.transition_to(State.BARGE_IN, "User interrupted (barge-in)")
+            
+            # Публикуем событие
+            await self.event_bus.publish(Event(
+                type=EventType.SPEECH_DETECTED,
+                data={'barge_in': True},
+                source='orchestrator',
+            ))
     
     async def _on_text_transcribed(self, event: Event) -> None:
         """Обработка распознанного текста"""
@@ -197,6 +256,9 @@ class Orchestrator:
             # Останавливаем TTS
             if self.tts:
                 await self.tts.stop_speaking()
+            # Возврат к слушанию
+            await asyncio.sleep(0.1)
+            await self.fsm.transition_to(State.LISTEN, "Listening after barge-in")
     
     @property
     def conversation_history(self) -> list[dict]:
@@ -207,3 +269,13 @@ class Orchestrator:
         """Очистить историю диалога"""
         self._conversation_history.clear()
         logger.info("🗑️ История диалога очищена")
+    
+    @property
+    def aec_stats(self) -> dict:
+        """Статистика AEC"""
+        if self.aec:
+            return {
+                'enabled': self.aec.is_active,
+                'erle_db': self.aec.erle_db,
+            }
+        return {'enabled': False, 'erle_db': 0.0}

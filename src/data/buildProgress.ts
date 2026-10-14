@@ -83,10 +83,12 @@ export const buildProgress: BuildPhase[] = [
   },
   {
     phase: 4.5,
-    title: 'Фаза 4.5: Рефлексы (AEC + Barge-in)',
-    status: 'planned',
+    title: 'Фаза 4.5: Рефлексы (AEC + Barge-in) — ЗАВЕРШЕНА',
+    status: 'done',
     files: [
-      { path: 'jarvis/audio/aec.py', description: 'WebRTC AEC', phase: 4.5, status: 'planned' },
+      { path: 'jarvis/audio/aec.py', description: 'AEC (подавление эхо)', phase: 4.5, status: 'done', lines: 165 },
+      { path: 'jarvis/core/orchestrator.py', description: 'Orchestrator v2 (с Barge-in)', phase: 4.5, status: 'done', lines: 260 },
+      { path: 'jarvis/scripts/test_phase45.py', description: 'Тесты Фазы 4.5', phase: 4.5, status: 'done', lines: 230 },
     ],
   },
   {

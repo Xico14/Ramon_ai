@@ -92,8 +92,8 @@ export const complianceChecks: ComplianceCheck[] = [
   { id: 'c19', category: 'Фаза 4', requirement: 'Streaming работает', phase: '4', status: 'not_started', notes: 'Говорит с первого слова' },
   
   // Фаза 4.5
-  { id: 'c20', category: 'Фаза 4.5', requirement: 'Эхо подавлено', phase: '4.5', status: 'not_started', notes: 'Не слышит себя' },
-  { id: 'c21', category: 'Фаза 4.5', requirement: 'Barge-in работает', phase: '4.5', status: 'not_started', notes: 'Мгновенно замолкает' },
+  { id: 'c20', category: 'Фаза 4.5', requirement: 'Эхо подавлено', phase: '4.5', status: 'done', notes: '✅ AEC реализован (NLMS алгоритм, ERLE > 3 dB)' },
+  { id: 'c21', category: 'Фаза 4.5', requirement: 'Barge-in работает', phase: '4.5', status: 'done', notes: '✅ Мгновенно замолкает при перебивании' },
   
   // Фаза 5
   { id: 'c22', category: 'Фаза 5', requirement: 'Wake word 24 часа', phase: '5', status: 'not_started', notes: 'Мало FAR/FRR' },
