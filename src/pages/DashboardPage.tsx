@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { 
   MessageSquare, 
   FileText, 
@@ -14,10 +15,14 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../store';
 import { cn } from '../lib/utils';
+import { useMetrics } from '../hooks/useMetrics';
 
 export function DashboardPage() {
   const navigate = useNavigate();
   const { metrics, messages, documents, tools, fsmState } = useAppStore();
+  
+  // Подключаем real-time метрики
+  useMetrics();
 
   const stats = [
     {
