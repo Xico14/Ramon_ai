@@ -7,6 +7,12 @@ import logging
 import sys
 from pathlib import Path
 
+# СНАЧАЛА создаём все необходимые директории
+Path('./logs').mkdir(parents=True, exist_ok=True)
+Path('./data').mkdir(parents=True, exist_ok=True)
+Path('./models').mkdir(parents=True, exist_ok=True)
+Path('./documents').mkdir(parents=True, exist_ok=True)
+
 import yaml
 from qasync import QEventLoop
 from PyQt6.QtWidgets import QApplication
@@ -17,7 +23,7 @@ from core.orchestrator import Orchestrator
 from core.config import load_config
 from ui.main_window import MainWindow
 
-# Настройка логирования
+# Настройка логирования (теперь директория logs/ уже существует)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -74,12 +80,6 @@ async def main():
 
 
 if __name__ == '__main__':
-    # Создание необходимых директорий
-    Path('./logs').mkdir(exist_ok=True)
-    Path('./data').mkdir(exist_ok=True)
-    Path('./models').mkdir(exist_ok=True)
-    Path('./documents').mkdir(exist_ok=True)
-    
     try:
         asyncio.run(main())
     except Exception as e:
