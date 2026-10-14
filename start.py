@@ -54,14 +54,16 @@ def install_python_deps():
     """Установка Python зависимостей"""
     print("📦 Установка Python зависимостей...")
     try:
+        # Используем --upgrade для получения совместимых версий
         subprocess.run(
-            [sys.executable, "-m", "pip", "install", "-q", "-r", "requirements-backend.txt"],
+            [sys.executable, "-m", "pip", "install", "--upgrade", "-r", "requirements-backend.txt"],
             check=True
         )
         print("✅ Python зависимости установлены")
         return True
     except subprocess.CalledProcessError as e:
         print(f"⚠️  Ошибка установки Python зависимостей: {e}")
+        print("💡 Попробуйте установить вручную: pip install --upgrade fastapi uvicorn pydantic")
         return False
 
 
